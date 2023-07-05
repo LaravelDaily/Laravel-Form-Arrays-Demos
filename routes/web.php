@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\GameWinnerController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -24,6 +25,8 @@ Route::get('/dashboard', function () {
 })->name('dashboard');
 
 Route::resource('game', GameController::class);
+Route::get('game/{game}/winners', [GameWinnerController::class, 'edit'])->name('game.winners');
+Route::post('game/{game}/winners', [GameWinnerController::class, 'update'])->name('game.winners.update');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

@@ -30,6 +30,8 @@
                                     @endforeach
                                 </td>
                                 <td class="border px-4 py-2">
+                                    <a href="{{ route('game.winners', $game->id) }}"
+                                       class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Pick winners</a>
                                     <a href="{{ route('game.edit', $game->id) }}"
                                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</a>
                                     <form action="{{ route('game.destroy', $game->id) }}" method="POST" class="inline">
