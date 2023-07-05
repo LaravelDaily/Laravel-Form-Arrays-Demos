@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTeamRequest;
 use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TeamController extends Controller
 {
@@ -34,28 +36,17 @@ class TeamController extends Controller
         return view('teams.create', compact('users', 'positions'));
     }
 
-    public function store(Request $request)
+    public function store(StoreTeamRequest $request)
     {
-        $this->validate($request, [
-            'name' => ['required', 'unique:teams,name', 'string', 'max:200'],
-            'players' => ['required', 'array', 'min:3', 'max:10'],
-            'players.*.id' => ['required', 'exists:users,id', 'integer', 'distinct'],
-            'players.*.position' => ['required', 'string', 'max:200', 'distinct'],
-        ], [
-            'players.*.id.required' => 'The player field is required.',
-            'players.*.id.exists' => 'The selected player is invalid.',
-            'players.*.id.distinct' => 'Player cannot be selected twice',
-            'players.*.position.distinct' => 'Player positions must be unique',
-        ]);
-
-        $team = Team::create(['name' => $request->input('name')]);
-
-        $team->users()->sync(
-            collect($request->input('players'))
-                ->mapWithKeys(function ($item) {
-                    return [$item['id'] => ['position' => $item['position']]];
-                })
-        );
+        DB::transaction(function() use ($request) {
+            $team = Team::create($request->validated());
+            $team->users()->attach(
+                collect($request->input('players'))
+                    ->mapWithKeys(function ($item) {
+                        return [$item['id'] => ['position' => $item['position']]];
+                    })
+            );
+        });
 
         return redirect()->route('teams.index');
     }
@@ -63,7 +54,6 @@ class TeamController extends Controller
     public function edit(Team $team)
     {
         $users = User::pluck('name', 'id');
-        $team->load(['users']);
         $positions = [
             'Goalkeeper' => 'Goalkeeper',
             'Defender' => 'Defender',
@@ -80,28 +70,17 @@ class TeamController extends Controller
         return view('teams.edit', compact('team', 'users', 'positions'));
     }
 
-    public function update(Request $request, Team $team)
+    public function update(StoreTeamRequest $request, Team $team)
     {
-        $this->validate($request, [
-            'name' => ['required', 'unique:teams,name,' . $team->id, 'string', 'max:200'],
-            'players' => ['required', 'array', 'min:3', 'max:10'],
-            'players.*.id' => ['required', 'exists:users,id', 'integer', 'distinct'],
-            'players.*.position' => ['required', 'string', 'max:200', 'distinct'],
-        ], [
-            'players.*.id.required' => 'The player field is required.',
-            'players.*.id.exists' => 'The selected player is invalid.',
-            'players.*.id.distinct' => 'Player cannot be selected twice',
-            'players.*.position.distinct' => 'Player positions must be unique',
-        ]);
-
-        $team->update(['name' => $request->input('name')]);
-
-        $team->users()->sync(
-            collect($request->input('players'))
-                ->mapWithKeys(function ($item) {
-                    return [$item['id'] => ['position' => $item['position']]];
-                })
-        );
+        DB::transaction(function() use ($team, $request) {
+            $team->update($request->validated());
+            $team->users()->sync(
+                collect($request->input('players'))
+                    ->mapWithKeys(function ($item) {
+                        return [$item['id'] => ['position' => $item['position']]];
+                    })
+            );
+        });
 
         return redirect()->route('teams.index');
     }
