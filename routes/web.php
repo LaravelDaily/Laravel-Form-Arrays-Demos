@@ -3,6 +3,7 @@
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\GameWinnerController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TeamController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,6 +25,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
+Route::resource('team', TeamController::class);
 Route::resource('game', GameController::class);
 Route::get('game/{game}/winners', [GameWinnerController::class, 'edit'])->name('game.winners');
 Route::post('game/{game}/winners', [GameWinnerController::class, 'update'])->name('game.winners.update');
