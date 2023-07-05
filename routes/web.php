@@ -25,7 +25,7 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
-Route::resource('team', TeamController::class);
+Route::resource('teams', TeamController::class);
 Route::resource('games', GameController::class);
 Route::get('games/{game}/winners', [GameWinnerController::class, 'edit'])->name('games.winners');
 Route::post('games/{game}/winners', [GameWinnerController::class, 'update'])->name('games.winners.update');

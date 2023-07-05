@@ -57,7 +57,7 @@ class TeamController extends Controller
                 })
         );
 
-        return redirect()->route('team.index');
+        return redirect()->route('teams.index');
     }
 
     public function edit(Team $team)
@@ -103,14 +103,13 @@ class TeamController extends Controller
                 })
         );
 
-        return redirect()->route('team.index');
+        return redirect()->route('teams.index');
     }
 
     public function destroy(Team $team)
     {
-        $team->users()->sync([]);
         $team->delete();
 
-        return redirect()->route('team.index');
+        return redirect()->route('teams.index');
     }
 }

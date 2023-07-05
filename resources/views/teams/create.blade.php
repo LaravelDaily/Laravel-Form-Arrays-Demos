@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
-                    <form method="POST" action="{{ route('team.store') }}">
+                    <form method="POST" action="{{ route('teams.store') }}">
                         @csrf
                         <div class="mb-4">
                             <label class="text-xl text-gray-600" for="name">Name <span

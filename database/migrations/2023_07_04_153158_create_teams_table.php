@@ -12,12 +12,6 @@ return new class extends Migration {
             $table->string('name');
             $table->timestamps();
         });
-
-        Schema::create('team_user', function (Blueprint $table) {
-            $table->foreignId('user_id')->constrained();
-            $table->foreignId('team_id')->constrained();
-            $table->string('position')->nullable();
-        });
     }
 
     public function down()

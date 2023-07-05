@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
-                    <a href="{{ route('team.create') }}"
+                    <a href="{{ route('teams.create') }}"
                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add Team</a>
 
                     <table class="table-auto w-full">
@@ -31,9 +31,9 @@
                                     @endforeach
                                 </td>
                                 <td class="border px-4 py-2">
-                                    <a href="{{ route('team.edit', $team->id) }}"
+                                    <a href="{{ route('teams.edit', $team->id) }}"
                                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</a>
-                                    <form action="{{ route('team.destroy', $team->id) }}" method="POST" class="inline">
+                                    <form action="{{ route('teams.destroy', $team->id) }}" method="POST" class="inline" onsubmit="return confirm('Are you sure?')">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
