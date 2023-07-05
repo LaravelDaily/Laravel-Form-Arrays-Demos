@@ -18,6 +18,9 @@
                     <x-nav-link :href="route('game.index')" :active="request()->routeIs('game.*')">
                         {{ __('Single Level Arrays') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('team.index')" :active="request()->routeIs('team.*')">
+                        {{ __('Multi Level Arrays') }}
+                    </x-nav-link>
                 </div>
             </div>
 

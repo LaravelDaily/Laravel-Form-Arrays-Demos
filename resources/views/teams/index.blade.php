@@ -9,8 +9,8 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
-                    <a href="{{ route('game.create') }}"
-                       class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add Game</a>
+                    <a href="{{ route('team.create') }}"
+                       class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Add Team</a>
 
                     <table class="table-auto w-full">
                         <thead>
@@ -21,20 +21,19 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach ($games as $game)
+                        @foreach ($teams as $team)
                             <tr>
-                                <td class="border px-4 py-2">{{ $game->name }}</td>
+                                <td class="border px-4 py-2">{{ $team->name }}</td>
                                 <td class="border px-4 py-2">
-                                    @foreach ($game->users as $player)
-                                        {{ $player->name }}<br>
+                                    @foreach ($team->users as $player)
+                                        {{ $player->name }} - {{ $player->pivot->position }}
+                                        <br>
                                     @endforeach
                                 </td>
                                 <td class="border px-4 py-2">
-                                    <a href="{{ route('game.winners', $game->id) }}"
-                                       class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Pick winners</a>
-                                    <a href="{{ route('game.edit', $game->id) }}"
+                                    <a href="{{ route('team.edit', $team->id) }}"
                                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Edit</a>
-                                    <form action="{{ route('game.destroy', $game->id) }}" method="POST" class="inline">
+                                    <form action="{{ route('team.destroy', $team->id) }}" method="POST" class="inline">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit"
