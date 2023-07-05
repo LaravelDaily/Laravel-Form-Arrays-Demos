@@ -11,13 +11,13 @@ class GameWinnerController extends Controller
     {
         $game->load(['users']);
 
-        $positions = [];
+        $places = [];
 
         for ($i = 1; $i <= $game->users->count(); $i++) {
-            $positions[$i] = 'Place ' . $i;
+            $places[$i] = 'Place ' . $i;
         }
 
-        return view('games.winners', compact('game', 'positions'));
+        return view('games.winners', compact('game', 'places'));
     }
 
     public function update(Request $request, Game $game)
@@ -28,8 +28,8 @@ class GameWinnerController extends Controller
             'players' => ['required', 'array', 'min:' . $game->users->count()],
             'players.*' => ['required', 'integer', 'distinct', 'min:1', 'max:' . $game->users->count()],
         ], [
-            'players.*.required' => 'Please select a winner for each position.',
-            'players.*.distinct' => 'Please select a different winner for each position.',
+            'players.*.required' => 'Please select a winner for each place.',
+            'players.*.distinct' => 'Please select a different winner for each place.',
         ]);
 
         foreach ($game->users as $user) {

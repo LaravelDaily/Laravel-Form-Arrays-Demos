@@ -18,9 +18,9 @@
                                 <div class="w-1/2">
                                     <select name="players[{{$user->id}}]" id="players[{{$user->id}}]"
                                             class="border-2 border-gray-300 p-2 w-full">
-                                        <option value="">Select Position</option>
-                                        @foreach($positions as $position => $name)
-                                            <option value="{{ $position }}" @selected(old('players.' . $user->id, $user->pivot->place) == $position)>{{ $name }}</option>
+                                        <option value="">Select Place</option>
+                                        @foreach($places as $place => $name)
+                                            <option value="{{ $place }}" @selected(old('players.' . $user->id, $user->pivot->place) == $place)>{{ $name }}</option>
                                         @endforeach
                                     </select>
                                     @error('players.'.$user->id)
@@ -34,7 +34,7 @@
 
                         <div class="mb-4">
                             <button type="submit"
-                                    class="bg-blue-500 text-white px-4 py-2 rounded font-medium">Update Player Positions
+                                    class="bg-blue-500 text-white px-4 py-2 rounded font-medium">Update Player Places
                             </button>
                         </div>
                     </form>
