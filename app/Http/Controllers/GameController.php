@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreGameRequest;
 use App\Models\Game;
 use App\Models\User;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class GameController extends Controller
 {
     public function index()
     {
-        $games = Game::with(['users'])->get();
+        $games = Game::with('users')->get();
 
         return view('games.index', compact('games'));
     }
@@ -22,47 +23,37 @@ class GameController extends Controller
         return view('games.create', compact('users'));
     }
 
-    public function store(Request $request)
+    public function store(StoreGameRequest $request)
     {
-        $this->validate($request, [
-            'name' => ['required', 'string', 'max:200'],
-            'players' => ['required', 'array', 'min:3'],
-            'players.*' => ['required', 'integer', 'exists:users,id'],
-        ]);
+        DB::transaction(function() use ($request) {
+            $game = Game::create($request->validated());
+            $game->users()->attach($request->input('players'));
+        });
 
-        $game = Game::create(['name' => $request->input('name')]);
-        $game->users()->sync($request->input('players'));
-
-        return redirect()->route('game.index');
+        return redirect()->route('games.index');
     }
 
     public function edit(Game $game)
     {
         $users = User::pluck('name', 'id');
-        $game->load(['users']);
 
         return view('games.edit', compact('game', 'users'));
     }
 
-    public function update(Request $request, Game $game)
+    public function update(StoreGameRequest $request, Game $game)
     {
-        $this->validate($request, [
-            'name' => ['required', 'string', 'max:200'],
-            'players' => ['required', 'array', 'min:3'],
-            'players.*' => ['required', 'integer', 'exists:users,id'],
-        ]);
+        DB::transaction(function() use ($game, $request) {
+            $game->update($request->validated());
+            $game->users()->sync($request->input('players'));
+        });
 
-        $game->update(['name' => $request->input('name')]);
-        $game->users()->sync($request->input('players'));
-
-        return redirect()->route('game.index');
+        return redirect()->route('games.index');
     }
 
     public function destroy(Game $game)
     {
-        $game->users()->sync([]);
         $game->delete();
 
-        return redirect()->route('game.index');
+        return redirect()->route('games.index');
     }
 }

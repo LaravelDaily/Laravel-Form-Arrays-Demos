@@ -26,9 +26,9 @@ Route::get('/dashboard', function () {
 })->name('dashboard');
 
 Route::resource('team', TeamController::class);
-Route::resource('game', GameController::class);
-Route::get('game/{game}/winners', [GameWinnerController::class, 'edit'])->name('game.winners');
-Route::post('game/{game}/winners', [GameWinnerController::class, 'update'])->name('game.winners.update');
+Route::resource('games', GameController::class);
+Route::get('games/{game}/winners', [GameWinnerController::class, 'edit'])->name('games.winners');
+Route::post('games/{game}/winners', [GameWinnerController::class, 'update'])->name('games.winners.update');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
