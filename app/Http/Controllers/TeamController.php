@@ -5,35 +5,36 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreTeamRequest;
 use App\Models\Team;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class TeamController extends Controller
 {
+    public array $positions = [
+        'Goalkeeper' => 'Goalkeeper',
+        'Defender' => 'Defender',
+        'Midfielder' => 'Midfielder',
+        'Forward' => 'Forward',
+        'Coach' => 'Coach',
+        'Assistant Coach' => 'Assistant Coach',
+        'Physiotherapist' => 'Physiotherapist',
+        'Doctor' => 'Doctor',
+        'Manager' => 'Manager',
+        'President' => 'President',
+    ];
+
     public function index()
     {
-        $teams = Team::all();
+        $teams = Team::with('users')->get();
 
         return view('teams.index', compact('teams'));
     }
 
     public function create()
     {
-        $users = User::pluck('name', 'id');
-        $positions = [
-            'Goalkeeper' => 'Goalkeeper',
-            'Defender' => 'Defender',
-            'Midfielder' => 'Midfielder',
-            'Forward' => 'Forward',
-            'Coach' => 'Coach',
-            'Assistant Coach' => 'Assistant Coach',
-            'Physiotherapist' => 'Physiotherapist',
-            'Doctor' => 'Doctor',
-            'Manager' => 'Manager',
-            'President' => 'President',
-        ];
-
-        return view('teams.create', compact('users', 'positions'));
+        return view('teams.create', [
+            'users' => User::pluck('name', 'id'),
+            'positions' => $this->positions,
+        ]);
     }
 
     public function store(StoreTeamRequest $request)
@@ -53,21 +54,11 @@ class TeamController extends Controller
 
     public function edit(Team $team)
     {
-        $users = User::pluck('name', 'id');
-        $positions = [
-            'Goalkeeper' => 'Goalkeeper',
-            'Defender' => 'Defender',
-            'Midfielder' => 'Midfielder',
-            'Forward' => 'Forward',
-            'Coach' => 'Coach',
-            'Assistant Coach' => 'Assistant Coach',
-            'Physiotherapist' => 'Physiotherapist',
-            'Doctor' => 'Doctor',
-            'Manager' => 'Manager',
-            'President' => 'President',
-        ];
-
-        return view('teams.edit', compact('team', 'users', 'positions'));
+        return view('teams.edit', [
+            'team' => $team,
+            'users' => User::pluck('name', 'id'),
+            'positions' => $this->positions,
+        ]);
     }
 
     public function update(StoreTeamRequest $request, Team $team)
