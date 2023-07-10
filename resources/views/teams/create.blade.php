@@ -23,54 +23,7 @@
                             @enderror
                         </div>
 
-                        @for($i = 1; $i <= 3; $i++)
-                            <div class="mb-4 grid grid-cols-2">
-                                <div class="w-1/2">
-                                    <label class="text-xl text-gray-600" for="players[{{$i}}][id]">Player<span
-                                                class="text-red-500">*</span></label>
-                                    <select name="players[{{$i}}][id]" id="players[{{$i}}][id]"
-                                            class="border-2 border-gray-300 p-2 w-full">
-                                        <option value="">Select Player</option>
-                                        @foreach($users as $id => $name)
-                                            <option value="{{ $id }}"
-                                                    @selected(old('players.'.$i.'.id') == $id)
-                                            >{{ $name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('players.'.$i.'.id')
-                                    <div class="text-red-500 mt-2 text-sm">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror
-                                </div>
-                                <div class="w-1/2">
-                                    <label class="text-xl text-gray-600" for="players[{{$i}}][position]">Position<span
-                                                class="text-red-500">*</span></label>
-                                    <select name="players[{{$i}}][position]" id="players[{{$i}}][position]"
-                                            class="border-2 border-gray-300 p-2 w-full">
-                                        <option value="">Select Position</option>
-                                        @foreach($positions as $id => $name)
-                                            <option value="{{ $id }}"
-                                                    @selected(old('players.'.$i.'.position') == $id)
-                                            >{{ $name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('players.'.$i.'.position')
-                                    <div class="text-red-500 mt-2 text-sm">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror
-                                </div>
-                            </div>
-                        @endfor
-
-                        <div class="mb-4">
-                            @error('players')
-                            <div class="text-red-500 mt-2 text-sm">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
+                        <livewire:team-player-selection />
 
                         <div class="mb-4">
                             <button type="submit"

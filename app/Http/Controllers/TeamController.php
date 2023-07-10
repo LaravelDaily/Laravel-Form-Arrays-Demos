@@ -4,24 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTeamRequest;
 use App\Models\Team;
-use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class TeamController extends Controller
 {
-    public array $positions = [
-        'Goalkeeper' => 'Goalkeeper',
-        'Defender' => 'Defender',
-        'Midfielder' => 'Midfielder',
-        'Forward' => 'Forward',
-        'Coach' => 'Coach',
-        'Assistant Coach' => 'Assistant Coach',
-        'Physiotherapist' => 'Physiotherapist',
-        'Doctor' => 'Doctor',
-        'Manager' => 'Manager',
-        'President' => 'President',
-    ];
-
     public function index()
     {
         $teams = Team::with('users')->get();
@@ -31,10 +17,7 @@ class TeamController extends Controller
 
     public function create()
     {
-        return view('teams.create', [
-            'users' => User::pluck('name', 'id'),
-            'positions' => $this->positions,
-        ]);
+        return view('teams.create');
     }
 
     public function store(StoreTeamRequest $request)
@@ -63,8 +46,6 @@ class TeamController extends Controller
     {
         return view('teams.edit', [
             'team' => $team,
-            'users' => User::pluck('name', 'id'),
-            'positions' => $this->positions,
         ]);
     }
 

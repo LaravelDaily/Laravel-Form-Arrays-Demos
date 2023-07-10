@@ -24,54 +24,56 @@
                             @enderror
                         </div>
 
-                        @foreach($team->users as $player)
-                            <div class="mb-4 grid grid-cols-2">
-                                <div class="w-1/2">
-                                    <label class="text-xl text-gray-600" for="players[{{$player->id}}][id]">Player<span
-                                                class="text-red-500">*</span></label>
-                                    <select name="players[{{$player->id}}][id]" id="players[{{$player->id}}][id]"
-                                            class="border-2 border-gray-300 p-2 w-full">
-                                        <option value="">Select Player</option>
-                                        @foreach($users as $id => $name)
-                                            <option value="{{ $id }}"
-                                                    @selected(old('players.'.$player->id.'.id', $player->id) == $id)
-                                            >{{ $name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('players.'.$player->id.'.id')
-                                    <div class="text-red-500 mt-2 text-sm">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror
-                                </div>
-                                <div class="w-1/2">
-                                    <label class="text-xl text-gray-600" for="players[{{$player->id}}][position]">Position<span
-                                                class="text-red-500">*</span></label>
-                                    <select name="players[{{$player->id}}][position]" id="players[{{$player->id}}][position]"
-                                            class="border-2 border-gray-300 p-2 w-full">
-                                        <option value="">Select Position</option>
-                                        @foreach($positions as $id => $name)
-                                            <option value="{{ $id }}"
-                                                    @selected(old('players.'.$player->id.'.position', $player->pivot->position) == $id)
-                                            >{{ $name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('players.'.$player->id.'.position')
-                                    <div class="text-red-500 mt-2 text-sm">
-                                        {{ $message }}
-                                    </div>
-                                    @enderror
-                                </div>
-                            </div>
-                        @endforeach
+                        <livewire:team-player-selection :team="$team"/>
+{{--                        --}}
+{{--                        @foreach($team->users as $player)--}}
+{{--                            <div class="mb-4 grid grid-cols-2">--}}
+{{--                                <div class="w-1/2">--}}
+{{--                                    <label class="text-xl text-gray-600" for="players[{{$player->id}}][id]">Player<span--}}
+{{--                                                class="text-red-500">*</span></label>--}}
+{{--                                    <select name="players[{{$player->id}}][id]" id="players[{{$player->id}}][id]"--}}
+{{--                                            class="border-2 border-gray-300 p-2 w-full">--}}
+{{--                                        <option value="">Select Player</option>--}}
+{{--                                        @foreach($users as $id => $name)--}}
+{{--                                            <option value="{{ $id }}"--}}
+{{--                                                    @selected(old('players.'.$player->id.'.id', $player->id) == $id)--}}
+{{--                                            >{{ $name }}</option>--}}
+{{--                                        @endforeach--}}
+{{--                                    </select>--}}
+{{--                                    @error('players.'.$player->id.'.id')--}}
+{{--                                    <div class="text-red-500 mt-2 text-sm">--}}
+{{--                                        {{ $message }}--}}
+{{--                                    </div>--}}
+{{--                                    @enderror--}}
+{{--                                </div>--}}
+{{--                                <div class="w-1/2">--}}
+{{--                                    <label class="text-xl text-gray-600" for="players[{{$player->id}}][position]">Position<span--}}
+{{--                                                class="text-red-500">*</span></label>--}}
+{{--                                    <select name="players[{{$player->id}}][position]" id="players[{{$player->id}}][position]"--}}
+{{--                                            class="border-2 border-gray-300 p-2 w-full">--}}
+{{--                                        <option value="">Select Position</option>--}}
+{{--                                        @foreach($positions as $id => $name)--}}
+{{--                                            <option value="{{ $id }}"--}}
+{{--                                                    @selected(old('players.'.$player->id.'.position', $player->pivot->position) == $id)--}}
+{{--                                            >{{ $name }}</option>--}}
+{{--                                        @endforeach--}}
+{{--                                    </select>--}}
+{{--                                    @error('players.'.$player->id.'.position')--}}
+{{--                                    <div class="text-red-500 mt-2 text-sm">--}}
+{{--                                        {{ $message }}--}}
+{{--                                    </div>--}}
+{{--                                    @enderror--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        @endforeach--}}
 
-                        <div class="mb-4">
-                            @error('players')
-                            <div class="text-red-500 mt-2 text-sm">
-                                {{ $message }}
-                            </div>
-                            @enderror
-                        </div>
+{{--                        <div class="mb-4">--}}
+{{--                            @error('players')--}}
+{{--                            <div class="text-red-500 mt-2 text-sm">--}}
+{{--                                {{ $message }}--}}
+{{--                            </div>--}}
+{{--                            @enderror--}}
+{{--                        </div>--}}
 
                         <div class="mb-4">
                             <button type="submit"

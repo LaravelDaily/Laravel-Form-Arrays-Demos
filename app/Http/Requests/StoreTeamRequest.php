@@ -35,6 +35,7 @@ class StoreTeamRequest extends FormRequest
             'players.*.id.required' => 'The player field is required.',
             'players.*.id.exists' => 'The selected player is invalid.',
             'players.*.id.distinct' => 'Player cannot be selected twice',
+            'players.*.position.required' => 'Player position is required',
             'players.*.position.distinct' => 'Player positions must be unique',
         ];
     }
