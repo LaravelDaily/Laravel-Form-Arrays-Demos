@@ -55,7 +55,7 @@ class TeamPlayerSelection extends Component
         if (count(old('players', [])) > 0) {
             foreach (old('players', []) as $index => $player) {
                 $this->players[$index] = [
-                    'user_id' => $player['id'],
+                    'id' => $player['id'],
                     'position' => $player['position']
                 ];
             }
@@ -63,7 +63,7 @@ class TeamPlayerSelection extends Component
             $this->team->load(['users']);
             foreach ($this->team->users as $index => $player) {
                 $this->players[$index] = [
-                    'user_id' => $player->id,
+                    'id' => $player->id,
                     'position' => $player->pivot->position
                 ];
             }

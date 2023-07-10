@@ -6,12 +6,12 @@
                 <label class="text-xl text-gray-600" for="players[{{$i}}][id]">Player<span
                             class="text-red-500">*</span></label>
                 <select name="players[{{$i}}][id]" id="players[{{$i}}][id]"
-                        wire:model="players.{{$i}}.user_id"
+                        wire:model="players.{{$i}}.id"
                         class="border-2 border-gray-300 p-2 w-full">
                     <option value="">Select Player</option>
                     @foreach($users as $id => $name)
                         <option value="{{ $id }}"
-                                @if(in_array($id, collect($players)->filter(fn($value, $key) => $key != $i)->pluck('user_id')->toArray()))
+                                @if(in_array($id, collect($players)->filter(fn($value, $key) => $key != $i)->pluck('id')->toArray()))
                                     disabled
                                 @endif
                                 @selected(old('players.'.$i.'.id') == $id)
