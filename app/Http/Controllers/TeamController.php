@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTeamRequest;
 use App\Models\Team;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
 class TeamController extends Controller
@@ -17,7 +18,9 @@ class TeamController extends Controller
 
     public function create()
     {
-        return view('teams.create');
+        return view('teams.create', [
+            'users' => User::pluck('name', 'id')->toArray()
+        ]);
     }
 
     public function store(StoreTeamRequest $request)
@@ -44,8 +47,17 @@ class TeamController extends Controller
 
     public function edit(Team $team)
     {
+        $team->load(['users']);
+
         return view('teams.edit', [
             'team' => $team,
+            'users' => User::pluck('name', 'id')->toArray(),
+            'teamUsers' => $team->users->map(function ($user) {
+                return [
+                    'id' => $user->id,
+                    'position' => $user->pivot->position
+                ];
+            })
         ]);
     }
 

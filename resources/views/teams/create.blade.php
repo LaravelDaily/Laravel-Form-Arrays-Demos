@@ -23,7 +23,11 @@
                             @enderror
                         </div>
 
-                        <livewire:team-player-selection />
+                        {{--                      <livewire:team-player-selection />--}}
+                        <team-player-selection :users="{{ json_encode($users) }}"
+                                               :selected-users="{{ json_encode(old('players', [])) }}"
+                                               :error-bag="{{ json_encode($errors->getMessageBag()) }}"
+                        ></team-player-selection>
 
                         <div class="mb-4">
                             <button type="submit"
