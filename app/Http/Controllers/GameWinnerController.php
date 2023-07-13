@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreGameWinnerRequest;
 use App\Models\Game;
 use Illuminate\Http\Request;
 
@@ -20,17 +21,9 @@ class GameWinnerController extends Controller
         return view('games.winners', compact('game', 'places'));
     }
 
-    public function update(Request $request, Game $game)
+    public function update(StoreGameWinnerRequest $request, Game $game)
     {
         $game->load(['users']);
-
-        $this->validate($request, [
-            'players' => ['required', 'array', 'min:' . $game->users->count()],
-            'players.*' => ['required', 'integer', 'distinct', 'min:1', 'max:' . $game->users->count()],
-        ], [
-            'players.*.required' => 'Please select a winner for each place.',
-            'players.*.distinct' => 'Please select a different winner for each place.',
-        ]);
 
         foreach ($game->users as $user) {
             $game->users()->updateExistingPivot($user->id, [
