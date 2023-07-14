@@ -7,7 +7,7 @@ import TeamPlayerSelection from '../vue/TeamPlayerSelection.vue';
 window.Alpine = Alpine;
 
 Alpine.start();
-
-createApp({})
-    .component('TeamPlayerSelection', TeamPlayerSelection)
-    .mount('#app');
+//
+// createApp({})
+//     .component('TeamPlayerSelection', TeamPlayerSelection)
+//     .mount('#app');
